@@ -4,7 +4,7 @@ var wrapper = function() {
 //    this.World = require("../support/world.js").World;
     var payload;
 
-   this.When(/^I GET \/api\/info$/, function (callback) {
+    this.When(/^I GET \/api\/info$/, function (callback) {
         var client = restify.createJsonClient({
             url: 'http://localhost:8080'
         });
@@ -16,11 +16,10 @@ var wrapper = function() {
                 payload = obj;
                 callback();
             }
-        });        
+        });
     });
 
     this.Then(/^I see something$/, function (callback) {
-        console.log('payload: ', payload);
         if (payload != null)
             callback();
         else

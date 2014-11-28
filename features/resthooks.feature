@@ -6,9 +6,22 @@ Feature: Rest Hooks
     Given a running server
 
   Scenario: List Subscriptions (None found)
-    Given 
+    Given I have no hooks registered
+    When I GET /api/subscription
+    Then an Empty List is returned
+
+  Scenario: List Subscriptions (One found)
+    Given I have one hook registered
+    When I GET /api/subscription
+    Then an List containing one entry is returned
+
+  Scenario: List Subscriptions (Multiple found)
+    Given I have multiple hooks registered
+    When I GET /api/subscription
+    Then an List containing multiple entries is returned
 
   Scenario: Create a Subscription
+    When I subscribe to transactions
 
   Scenario: Get details of a Subscription
 

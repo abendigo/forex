@@ -1,8 +1,6 @@
 Feature: Info call
 
-  Background:
+  Scenario: One
     Given a running server
-
-  Scenario:
     When I GET /api/info
     Then I see something
