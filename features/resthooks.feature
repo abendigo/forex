@@ -24,6 +24,9 @@ Feature: Rest Hooks
     When I subscribe to transactions
 
   Scenario: Get details of a Subscription
+    Given I have one hook registered
+    When I GET /api/subscription/1
+    Then details are returned
 
   Scenario: Modify details of a Subscription
 

@@ -73,6 +73,21 @@ var wrapper = function() {
         });
     });
 
+    this.When(/^I GET \/api\/subscription\/(\d+)$/, function (id, callback) {
+        var client = restify.createJsonClient({
+            url: 'http://localhost:8080'
+        });
+        client.get('/api/subscription/' + id, function(err, request, response, obj) {
+            client.close();
+            if (err != null) {
+                callback.fail();
+            } else {
+                payload = obj;
+                callback();
+            }
+        });
+    });
+
     this.Then(/^an Empty List is returned$/, function (callback) {
         if (payload != null && payload.length == 0)
             callback();
@@ -89,6 +104,13 @@ var wrapper = function() {
 
     this.Then(/^an List containing multiple entries is returned$/, function (callback) {
         if (payload != null && payload.length > 1)
+            callback();
+        else
+            callback.fail();
+    });
+
+    this.Then(/^details are returned$/, function (callback) {
+        if (payload != null)
             callback();
         else
             callback.fail();
