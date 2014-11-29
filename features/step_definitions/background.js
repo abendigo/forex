@@ -13,8 +13,12 @@ var wrapper = function() {
     });
 
     this.Given(/^a running server$/, function (callback) {
-        server = restify.createServer();
-        world.service = api(server);
+        var log = bunyan.createLogger({name: 'testing', streams: []});
+        server = restify.createServer({log: log});
+        world.service = api({
+                server: server,
+                log: log
+            });
 
         server.listen(8080, function() {
              callback();

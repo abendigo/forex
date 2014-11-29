@@ -1,6 +1,17 @@
 var restify = require('restify');
 
-var api = function(server) {
+var subscriptions = {};
+
+function getHooks() {
+    return subscriptions;
+}
+
+var api = function(config) {
+    config = config || {};
+
+    var server = config.server;
+    var log = config.log;
+    
     server.use(restify.bodyParser());
 
     server.get('/api/info', function(request, response, next) {
@@ -12,7 +23,6 @@ var api = function(server) {
         next();
     });
 
-    var subscriptions = {};
     var index = 1;
 
     server.get({
@@ -53,15 +63,21 @@ var api = function(server) {
 
     server.get('/api/trigger/:id', function(request, response, next) {
         var client = restify.createJsonClient({
-            url: sunscriptions[request.params.id].target
+            url: subscriptions[request.params.id].target
         });
-        client.post('/', {}, function(err, request, response, payload) {
+        client.post(subscriptions[request.params.id].target, {
+            
+        }, function(err, request, response, payload) {
             console.log('err', err);
             console.log('payload', payload);
         });
         response.send(200);
         next();
     });
+
 }
 
-module.exports = api;
+module.exports = {
+    api: api,
+    getHooks: getHooks
+};

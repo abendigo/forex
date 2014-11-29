@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "./node_modules/.bin/cucumber.js -f pretty"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "bunyan": "^1.2.3",
     "restify": "^2.8.3"
   },
   "devDependencies": {
