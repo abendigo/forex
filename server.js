@@ -7,7 +7,7 @@ var api = require('./src/api');
 var log = bunyan.createLogger({
         name: 'name',
         stream: process.stdout,
-        level: 'trace'
+        level: 'info'
     });
 
 var server = restify.createServer({
@@ -18,17 +18,17 @@ var server = restify.createServer({
     name: "MyApp"
 });
 
-server.use(restify.requestLogger({
-        name: 'req', 
-        stream: process.stdout
-    }));
+// server.use(restify.requestLogger({
+//         name: 'req', 
+//         stream: process.stdout
+//     }));
 
-server.on('after', restify.auditLogger({
-  log: bunyan.createLogger({
-    name: 'audit',
-    stream: process.stdout
-  })
-}));
+// server.on('after', restify.auditLogger({
+//   log: bunyan.createLogger({
+//     name: 'audit',
+//     stream: process.stdout
+//   })
+// }));
 
 var service = api.api({
         server: server,
@@ -37,6 +37,6 @@ var service = api.api({
 
 var client = stream({hooks: api.getHooks()}); 
 
-server.listen(8080, function() {
+server.listen(9001, function() {
   log.info('%s listening at %s', server.name, server.url);
 });
