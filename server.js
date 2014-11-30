@@ -35,7 +35,10 @@ var service = api.api({
         log: log 
     });
 
-var client = stream({hooks: api.getHooks()}); 
+// var client = stream({
+//         hooks: api.getHooks(),
+//         token: "TOKEN"
+//     }); 
 
 server.listen(9001, function() {
   log.info('%s listening at %s', server.name, server.url);

@@ -24,6 +24,28 @@ var api = function(config) {
         next();
     });
 
+    server.get('/api/accounts', function(request, response, next) {
+        log.info('GET /api/accounts');
+        log.info('==', request.headers);
+        response.send({
+            "accounts": [
+                {
+                    "accountId" : 8954947,
+                    "accountName" : "Primary",
+                    "accountCurrency" : "USD",
+                    "marginRate" : 0.05
+                },
+                {
+                    "accountId" : 8954950,
+                    "accountName" : "SweetHome",
+                    "accountCurrency" : "CAD",
+                    "marginRate" : 0.02
+                }
+            ]
+        });
+        next();
+    });
+
     var index = 1;
 
     server.get({
