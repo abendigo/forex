@@ -26,24 +26,18 @@ var api = function(config) {
 
     server.get('/api/accounts', function(request, response, next) {
         log.info('GET /api/accounts');
-        log.info('==', request.headers);
-        response.send({
-            "accounts": [
-                {
-                    "accountId" : 8954947,
-                    "accountName" : "Primary",
-                    "accountCurrency" : "USD",
-                    "marginRate" : 0.05
-                },
-                {
-                    "accountId" : 8954950,
-                    "accountName" : "SweetHome",
-                    "accountCurrency" : "CAD",
-                    "marginRate" : 0.02
-                }
-            ]
-        });
-        next();
+        log.info('Authorization', request.headers.authorization);
+
+        var client = restify.createJsonClient({
+                url: 'https://api-fxtrade.oanda.com'
+            });
+        client.get({
+                path: '/api/v1/accounts',
+                headers: {"Authorization": request.headers.authorization}
+            }, function(err, request, response, payload) {
+                response.send(payload);
+                next();
+            }));
     });
 
     var index = 1;
