@@ -1,4 +1,5 @@
 var restify = require('restify');
+var assert = require('assert');
 
 var wrapper = function() {
 //    this.World = require("../support/world.js").World;
@@ -63,13 +64,12 @@ var wrapper = function() {
             target_url: 'https://zapier.com/hooks/standard/t2X7Q864FoHUa6U9Q6qozL0gxssIcGaM/',
             event: 'transactions'
         }, function(err, request, response, obj) {
+            statusCode = response.statusCode;
             client.close();
-            if (err != null) {
-                callback.fail();
-            } else {
-                payload = obj;
-                callback();
-            }
+
+            assert.ifError(err);
+            payload = obj;
+            callback();
         });
     });
 
@@ -79,12 +79,10 @@ var wrapper = function() {
         });
         client.get('/api/subscription/' + id, function(err, request, response, obj) {
             client.close();
-            if (err != null) {
-                callback.fail();
-            } else {
-                payload = obj;
-                callback();
-            }
+
+            assert.ifError(err);
+            payload = obj;
+            callback();
         });
     });
 
@@ -110,10 +108,23 @@ var wrapper = function() {
     });
 
     this.Then(/^details are returned$/, function (callback) {
-        if (payload != null)
-            callback();
-        else
-            callback.fail();
+        assert.ok(payload);
+        callback();
+    });
+
+    this.Then(/^a (\d+) status code is returned$/, function (expected, callback) {
+        assert.equal(expected, statusCode);
+        callback();
+    });    
+
+    this.Then(/^a Subscription ID is returned$/, function (callback) {
+        assert.equal(1, payload.id);
+        callback();
+    });
+
+    this.Then(/^a link to fetch details is returned$/, function (callback) {
+        assert.equal('/api/subscription/1', payload.subscription);
+        callback();
     });
 }
 

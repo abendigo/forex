@@ -34,10 +34,10 @@ var api = function(config) {
         client.get({
                 path: '/api/v1/accounts',
                 headers: {"Authorization": request.headers.authorization}
-            }, function(err, request, response, payload) {
+            }, function(err, req, res, payload) {
                 response.send(payload);
                 next();
-            }));
+            });
     });
 
     var index = 1;
@@ -57,15 +57,21 @@ var api = function(config) {
                 event: request.body.event,
                 id: index
             };
+        response.send(201, {
+                id: index,
+                subscription: server.router.render('resthook', {id: index})
+            });
         index += 1;
-        response.send(200);
         next();
     });
-    server.get('/api/subscription/:id', function(request, response, next) {
-        log.info('GET /api/subscription/', request.params.id);
-        response.send(200, subscriptions[request.params.id]);
-        next();
-    });
+    server.get({
+            name: 'resthook',
+            path: '/api/subscription/:id'
+        }, function(request, response, next) {
+            log.info('GET /api/subscription/', request.params.id);
+            response.send(200, subscriptions[request.params.id]);
+            next();
+        });
     server.put('/api/subscription/:id', function(request, response, next) {
         log.info('PUT /api/subscription/', request.params.id);
         subscriptions[request.params.id] = {

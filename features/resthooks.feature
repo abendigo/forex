@@ -22,6 +22,9 @@ Feature: Rest Hooks
 
   Scenario: Create a Subscription
     When I subscribe to transactions
+    Then a 201 status code is returned
+    And a Subscription ID is returned
+    And a link to fetch details is returned
 
   Scenario: Get details of a Subscription
     Given I have one hook registered

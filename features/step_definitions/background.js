@@ -1,4 +1,5 @@
 var restify = require('restify');
+var bunyan = require('bunyan');
 var api = require('../../src/api.js');
 
 var wrapper = function() {
@@ -7,7 +8,7 @@ var wrapper = function() {
     var server = null;
 
     this.registerHandler('AfterScenario', function(event, callback) {
-        if (server != null)
+        if (server != null && server.started)
             server.close();
         callback();
     });
@@ -15,13 +16,14 @@ var wrapper = function() {
     this.Given(/^a running server$/, function (callback) {
         var log = bunyan.createLogger({name: 'testing', streams: []});
         server = restify.createServer({log: log});
-        world.service = api({
+        world.service = api.api({
                 server: server,
                 log: log
             });
 
         server.listen(8080, function() {
-             callback();
+            server.started = true;
+            callback();
         });
     });
 }
