@@ -1,1 +1,1 @@
-docker build -t forex .
+FROM google/nodejs-runtime
