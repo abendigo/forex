@@ -40,6 +40,6 @@ var service = api.api({
 //         token: "TOKEN"
 //     }); 
 
-server.listen(9001, function() {
+server.listen(8080, function() {
   log.info('%s listening at %s', server.name, server.url);
 });
