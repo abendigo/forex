@@ -1,4 +1,5 @@
 var restify = require('restify');
+var stream = require('./stream');
 
 var subscriptions = {};
 

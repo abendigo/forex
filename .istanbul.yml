@@ -1,0 +1,5 @@
+instrumentation:
+    root: src
+    compact: false
+    embed-source: true
+    save-baseline: true
