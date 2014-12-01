@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/cucumber/bin/cucumber.js"
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/cucumber/bin/cucumber.js && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": "",
   "license": "MIT",
@@ -14,6 +14,7 @@
     "restify": "^2.8.3"
   },
   "devDependencies": {
+    "coveralls": "^2.11.2",
     "cucumber": "^0.4.4",
     "istanbul": "^0.3.2"
   }
