@@ -1,3 +1,5 @@
 language: node_js
 node_js:
   - "0.10"
+after_success:
+  curl --data "build=true" -X POST https://registry.hub.docker.com/u/abendigo/forex/trigger/e3517f98-790d-11e4-8f03-0242ac110033/
